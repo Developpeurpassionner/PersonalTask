@@ -2,7 +2,7 @@ import { createApp } from 'vue';
 import './tailwind.css';
 import App from './App.vue';
 import router from './router';
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/vue';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar,IonButton } from '@ionic/vue';
 import { IonicVue } from '@ionic/vue';
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/vue/css/core.css';
@@ -41,6 +41,7 @@ const app = createApp(App)
   .component('IonHeader',IonHeader)
   .component('IonPage',IonPage)
   .component('IonTitle',IonTitle)
+  .component('IonButton',IonButton)
   .component('IonToolbar',IonToolbar);
 
 router.isReady().then(() => {
