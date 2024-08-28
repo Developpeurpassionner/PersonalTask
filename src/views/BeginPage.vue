@@ -15,7 +15,6 @@
             </ion-toolbar>
         </ion-header>
         <ion-content :fullscreen="true">
-
             <form class="max-w-lg mx-auto mt-[20vh] lg:max-w-lg md:max-w-xl">
                 <label for="default-search"
                     class="mb-2 text-lg font-medium text-gray-900 sr-only dark:text-white"></label>
@@ -29,8 +28,8 @@
                         dark:focus:ring-blue-800" @click="ShowTache()">Ajouter</button>
                 </div>
             </form>
-            <ul>
-                <li v-for="tab in tabs" :key="tab" class="text-white">{{ tab, index }}</li>
+            <ul class="mx-auto mt-[3%] max-w-lg lg:max-w-lg md:max-w-xl">
+                <li v-for="tab in tabs" :key="tab" class="text-white rounded-md border bg-[#1e293b] px-5 py-5 text-xl lg:text-xl md:text-3xl">{{ tab }}</li>
             </ul>
         </ion-content>
     </ion-page>
