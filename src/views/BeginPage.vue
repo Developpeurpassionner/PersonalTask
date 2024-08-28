@@ -20,16 +20,18 @@
                 <label for="default-search"
                     class="mb-2 text-lg font-medium text-gray-900 sr-only dark:text-white"></label>
                 <div class="relative">
-                    <input type="text" id="text"
+                    <input v-model="tache" type="text" id=""
                         class="block w-full p-4 ps-10 text-xl lg:text-xl md:text-3xl text-white border border-gray-300 rounded-lg bg-black focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         placeholder="Que voulez-vous faire?" required />
                     <button type="button"
-                        class="text-white text-md  absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none 
-                        focus:ring-blue-300 font-medium rounded-lg  px-5 py-3 dark:bg-blue-600 dark:hover:bg-blue-700 
-                        dark:focus:ring-blue-800">Ajouter</button>
+                        class="text-white text-base lg:text-base md:text-3xl  absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none 
+                        focus:ring-blue-300 font-medium rounded-lg  px-5 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 
+                        dark:focus:ring-blue-800" @click="ShowTache()">Ajouter</button>
                 </div>
             </form>
-            
+            <ul>
+                <li v-for="tab in tabs" :key="tab" class="text-white">{{ tab, index }}</li>
+            </ul>
         </ion-content>
     </ion-page>
 </template>
@@ -47,17 +49,30 @@ export default {
     name: "BeginPage",
     data() {
         return {
-            HeureActuelle: null
+            HeureActuelle: null,
+            tache:'',
+            tabs:[]
         }
     },
     methods: {
         Heure() {
             this.HeureActuelle = moment().format("DD/MM/YYYY, h:mm:ss");
-        }
+        },
+        ShowTache(){
+            const regex = /^[a-zA-ZÀ-ÿ]+$/;
+            if (this.tache === '') {
+                alert("Vous n'avez rien saisi.");
+            } else if (!regex.test(this.tache)) {
+                alert("La saisie n'est pas correcte.");
+            } else {
+                this.tabs.push(this.tache);
+                this.tache = '';
+            }
+        },
     },
     created() {
         this.HeureActuelle = moment().format("DD/MM/YYYY, h:mm:ss");
         setInterval(() => this.Heure(), 1000);
-    },
+    }
 }
 </script>
