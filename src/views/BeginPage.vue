@@ -15,16 +15,17 @@
             </ion-toolbar>
         </ion-header>
         <ion-content :fullscreen="true">
+            <PopupMessage message="Vous n'avez rien saisi." v-if="closeModal" @close="ShowModal()"/>   
             <form class="max-w-lg mx-auto mt-[20vh] lg:max-w-lg md:max-w-xl">
                 <label for="default-search"
                     class="mb-2 text-lg font-medium text-gray-900 sr-only dark:text-white"></label>
-                <div class="relative">
+                <div class="flex">
                     <input v-model="tache" type="text" id=""
-                        class="block w-full p-4 ps-10 text-xl lg:text-xl md:text-3xl text-white border border-gray-300 rounded-lg bg-black focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        class="block w-full p-4 ps-10 text-xl rounded-sm lg:text-xl md:text-3xl text-white border border-gray-300 bg-black focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         placeholder="Que voulez-vous faire?" required />
                     <button type="button"
-                        class="text-white text-base lg:text-base md:text-3xl  absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none 
-                        focus:ring-blue-300 font-medium rounded-lg  px-5 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 
+                        class="text-white text-base lg:text-base md:text-3xl  bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none 
+                        focus:ring-blue-300 font-medium rounded-sm  px-5 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 
                         dark:focus:ring-blue-800" @click="ShowTache()">Ajouter</button>
                 </div>
             </form>
@@ -43,14 +44,17 @@
     }
 </style>
 <script>
+import PopupMessage from '@/components/PopupMessage.vue';
 import moment from '../../node_modules/moment';
 export default {
     name: "BeginPage",
+    components:{PopupMessage},
     data() {
         return {
             HeureActuelle: null,
             tache:'',
-            tabs:[]
+            tabs:[],
+            closeModal:false
         }
     },
     methods: {
@@ -58,9 +62,9 @@ export default {
             this.HeureActuelle = moment().format("DD/MM/YYYY, h:mm:ss");
         },
         ShowTache(){
-            const regex = /^[a-zA-ZÀ-ÿ]+$/;
+            const regex = /[a-zA-Z]+/;
             if (this.tache === '') {
-                alert("Vous n'avez rien saisi.");
+                this.closeModal=true;
             } else if (!regex.test(this.tache)) {
                 alert("La saisie n'est pas correcte.");
             } else {
@@ -68,6 +72,9 @@ export default {
                 this.tache = '';
             }
         },
+        ShowModal(){
+            this.closeModal=false;
+        }
     },
     created() {
         this.HeureActuelle = moment().format("DD/MM/YYYY, h:mm:ss");
