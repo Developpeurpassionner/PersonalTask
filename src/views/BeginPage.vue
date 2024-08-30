@@ -15,22 +15,34 @@
             </ion-toolbar>
         </ion-header>
         <ion-content :fullscreen="true">
-            <PopupMessage message="Vous n'avez rien saisi." v-if="closeModal" @close="ShowModal()"/>   
             <form class="max-w-lg mx-auto mt-[20vh] lg:max-w-lg md:max-w-xl">
                 <label for="default-search"
                     class="mb-2 text-lg font-medium text-gray-900 sr-only dark:text-white"></label>
                 <div class="flex">
                     <input v-model="tache" type="text" id=""
-                        class="block w-full p-4 ps-10 text-xl rounded-sm lg:text-xl md:text-3xl text-white border border-gray-300 bg-black focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        class="block w-full p-4 ps-10 text-xl rounded-sm lg:text-xl md:text-3xl text-white 
+                        border border-gray-300 bg-black focus:ring-blue-500 focus:border-blue-500 
+                        dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         placeholder="Que voulez-vous faire?" required />
-                    <button type="button"
-                        class="text-white text-base lg:text-base md:text-3xl  bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none 
+                    <button type="button" class="text-white text-base lg:text-base md:text-4xl  bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none 
                         focus:ring-blue-300 font-medium rounded-sm  px-5 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 
                         dark:focus:ring-blue-800" @click="ShowTache()">Ajouter</button>
                 </div>
             </form>
-            <ul class="mx-auto mt-[3%] max-w-lg lg:max-w-lg md:max-w-xl">
-                <li v-for="tab in tabs" :key="tab" class="text-white rounded-md border bg-[#1e293b] px-5 py-5 text-xl lg:text-xl md:text-3xl">{{ tab }}</li>
+            <PopupMessage message="Vous n'avez rien saisi." v-if="closeModal1" @close="ShowModal()" />
+            <PopupMessage message="La saisie n'est pas correcte." v-if="closeModal2" @close="ShowModal()" />
+            <ul class="mx-auto mt-[10%] max-w-lg lg:max-w-lg lg:mt-[2%] md:max-w-xl md:mt-[5%]">
+                <li v-for="tab in tabs" :key="tab"
+                    class="text-white rounded-md border bg-[#1e293b] px-5 py-5 text-xl lg:text-xl md:text-3xl">{{tab }}
+                    <div class="flex space-x-10">
+                        <button type="button" class="text-white bg-gradient-to-r from-teal-400 via-teal-500 
+                        to-teal-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-teal-300
+                         dark:focus:ring-teal-800 font-medium rounded-lg text-xl lg:text-base md:text-3xl px-5 py-2.5 text-center me-2 mt-3">Modifier</button>
+                         <button type="button" class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 
+                         hover:bg-gradient-to-br focus:ring-4 focus:outline-none 
+                         focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-xl lg:text-base md:text-3xl px-5 py-2.5 text-center me-2 mt-3">Supprimer</button>
+                    </div>
+                </li>
             </ul>
         </ion-content>
     </ion-page>
@@ -54,7 +66,8 @@ export default {
             HeureActuelle: null,
             tache:'',
             tabs:[],
-            closeModal:false
+            closeModal1:false,
+            closeModal2:false
         }
     },
     methods: {
@@ -64,16 +77,17 @@ export default {
         ShowTache(){
             const regex = /[a-zA-Z]+/;
             if (this.tache === '') {
-                this.closeModal=true;
+                this.closeModal1=true;
             } else if (!regex.test(this.tache)) {
-                alert("La saisie n'est pas correcte.");
+                this.closeModal2=true;
             } else {
                 this.tabs.push(this.tache);
                 this.tache = '';
             }
         },
         ShowModal(){
-            this.closeModal=false;
+            this.closeModal1=false;
+            this.closeModal2=false;
         }
     },
     created() {

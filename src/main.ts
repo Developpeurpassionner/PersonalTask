@@ -33,10 +33,11 @@ import '@ionic/vue/css/palettes/dark.system.css';
 
 /* Theme variables */
 import './theme/variables.css';
-
+import { MotionPlugin } from '@vueuse/motion';
 const app = createApp(App)
   .use(IonicVue)
   .use(router)
+  app.use(MotionPlugin)
   .component('IonContent',IonContent)
   .component('IonHeader',IonHeader)
   .component('IonPage',IonPage)
