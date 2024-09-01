@@ -32,37 +32,41 @@
             <PopupMessage message="Vous n'avez rien saisi." v-if="closeModal1" @close="ShowModal()" />
             <PopupMessage message="La saisie n'est pas correcte." v-if="closeModal2" @close="ShowModal()" />
             <ul class="mx-auto mt-[10%] max-w-lg lg:max-w-lg lg:mt-[2%] md:max-w-xl md:mt-[5%]">
-                <li v-for="(tab , index) in tabs" :key="index"
-                    class="text-white rounded-md border bg-[#1e293b] px-5 py-5 text-xl lg:text-xl md:text-3xl"> {{ index
-                    + 1 }} - {{tab }}
+                <li v-for="(tab, index) in tabs" :key="index"
+                    class="text-white rounded-md border bg-[#1e293b] px-5 py-5 text-xl lg:text-xl md:text-3xl"> {{
+                    index
+                    + 1 }} - {{ tab }}
                     <div class="flex space-x-10">
                         <button type="button"
                             class="text-white bg-gradient-to-r from-teal-400 via-teal-500 
                         to-teal-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-teal-300
                          dark:focus:ring-teal-800 font-medium rounded-lg text-xl lg:text-base md:text-3xl px-5 py-2.5 text-center me-2 mt-3"
-                            @click=" UpdateModal(index)">Modifier</button>
+                           @click=" UpdateModal(index)">Modifier</button>
                         <button type="button"
                             class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 
                          hover:bg-gradient-to-br focus:ring-4 focus:outline-none 
                          focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-xl lg:text-base md:text-3xl px-5 py-2.5 text-center me-2 mt-3"
                             @click="deleteTab(index)">Supprimer</button>
                     </div>
-                    <form class="max-w-lg mx-auto mt-5" v-if="InputUpdate">
-                        <label for=""
-                            class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Valider</label>
+                    <form class="max-w-lg mx-auto mt-5" v-if="InputUpdate && currentIndex === index">
+                        <label for="" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"></label>
                         <div class="relative">
                             <input type="text" id=""
-                                class="block w-full p-4 ps-10 text-lg text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                class="block w-full p-4 ps-10 text-xl lg:text-lg md:text-3xl text-gray-900 border border-gray-300 rounded-lg bg-gray-50
+                                 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 
+                                 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 v-model="ModifTache" required />
-                            <button type="submit" class="text-white absolute end-2.5 bottom-2.5 bg-blue-700
-                         hover:bg-blue-800 focus:ring-4 focus:outline-none 
-                         focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 
-                         dark:hover:bg-blue-700 dark:focus:ring-blue-800">Valider</button>
                         </div>
-                        <button type="button" class="text-white bg-gradient-to-r from-[#0ea5e9] via-[#0ea5e9] to-[#0ea5e9]
+                        <div class="flex space-x-10 mt-3">
+                            <button type="button" class="text-white bg-gradient-to-r from-[#0ea5e9] via-[#0ea5e9] to-[#0ea5e9]
                          hover:bg-gradient-to-br focus:ring-4 focus:outline-none 
                          focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-xl 
                          lg:text-base md:text-3xl px-5 py-2.5 text-center me-2" @click="leaveModal()">Annuler</button>
+                            <button type="button" class="text-white bg-gradient-to-r from-blue-600 via-blue-600 to-blue-600
+                         hover:bg-gradient-to-br focus:ring-4 focus:outline-none 
+                         focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-xl 
+                         lg:text-base md:text-3xl px-5 py-2.5 text-center me-2" @click="NewValuInput(index)">Valider</button>
+                        </div>
                     </form>
                 </li>
             </ul>
@@ -91,7 +95,8 @@ export default {
             closeModal1:false,
             closeModal2:false,
             ModifTache:null,
-            InputUpdate:false
+            InputUpdate:false,
+            currentIndex: null
         }
     },
     methods: {
@@ -115,12 +120,23 @@ export default {
         },
         deleteTab(index){
             this.tabs.splice(index,1);
+            this.InputUpdate=false;
         },
         UpdateModal(index){
-            this.InputUpdate=true;
-            this.ModifTache=this.tabs[index];
+            if (this.currentIndex === index) {
+                this.InputUpdate = true;
+                this.ModifTache=this.tabs[index];
+            } else {
+                this.InputUpdate = true;
+                this.currentIndex = index;
+                this.ModifTache=this.tabs[index];
+            }
         },
         leaveModal(){
+            this.InputUpdate=false;
+        },
+        NewValuInput(index){
+            this.tabs[index]=this.ModifTache;
             this.InputUpdate=false;
         }
     },
