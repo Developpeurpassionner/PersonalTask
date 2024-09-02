@@ -15,7 +15,13 @@
             </ion-toolbar>
         </ion-header>
         <ion-content :fullscreen="true">
-            <form class="max-w-lg mx-auto mt-[20vh] lg:max-w-lg md:max-w-xl">
+            <button v-if="ButtonSuccess" type="button" class=" fixed mx-auto text-black bg-gradient-to-r from-yellow-400 via-yellow-400 to-yellow-400
+                         hover:bg-gradient-to-br focus:ring-4 focus:outline-none 
+                         focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-xl 
+                         lg:text-base md:text-3xl px-5 py-2.5 text-center me-2" @click="saveTasks()">Enregistrer</button>
+            <PopupMessage message="Enregitrement avec succes." class="fixed" v-if="registerSuccess" @close="ShowModal()" />
+
+            <form class="max-w-lg mx-auto mt-[15vh] lg:max-w-lg md:max-w-xl">
                 <label for="default-search"
                     class="mb-2 text-lg font-medium text-gray-900 sr-only dark:text-white"></label>
                 <div class="flex">
@@ -96,9 +102,17 @@ export default {
             closeModal2:false,
             ModifTache:null,
             InputUpdate:false,
-            currentIndex: null
+            currentIndex: null,
+            registerSuccess:false,
+            ButtonSuccess:false
         }
     },
+    mounted() {
+        this.loadTasks();
+        window.addEventListener('beforeunload', this.handleBeforeUnload);
+        window.removeEventListener('beforeunload', this.handleBeforeUnload);
+        },
+
     methods: {
         Heure() {
             this.HeureActuelle = moment().format("DD/MM/YYYY, h:mm:ss");
@@ -112,11 +126,13 @@ export default {
             } else {
                 this.tabs.push(this.tache);
                 this.tache = '';
+                this.ButtonSuccess=true;
             }
         },
         ShowModal(){
             this.closeModal1=false;
             this.closeModal2=false;
+            this.registerSuccess=false;
         },
         deleteTab(index){
             this.tabs.splice(index,1);
@@ -138,8 +154,30 @@ export default {
         NewValuInput(index){
             this.tabs[index]=this.ModifTache;
             this.InputUpdate=false;
+        },
+        handleBeforeUnload(event) {
+            const confirmationMessage = 'Voulez-vous enregistrer vos tâches avant de quitter ?';
+            event.returnValue = confirmationMessage; // Standard pour certains navigateurs
+            return confirmationMessage; // Standard pour d'autres navigateurs
+        },
+        saveTasks() {
+            // Code pour enregistrer les tâches
+            localStorage.setItem('tabs', JSON.stringify(this.tabs));
+            this.registerSuccess=true;
+        },
+        confirmSaveTasks() {
+            if (confirm('Voulez-vous enregistrer vos tâches avant de quitter ?')) {
+                this.saveTasks();
+            }
+        },
+        loadTasks(){
+            const savedTasks = localStorage.getItem('tabs');
+            if (savedTasks) {
+                this.tabs = JSON.parse(savedTasks);
         }
-    },
+
+    }
+},
     created() {
         this.HeureActuelle = moment().format("DD/MM/YYYY, h:mm:ss");
         setInterval(() => this.Heure(), 1000);

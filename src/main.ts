@@ -1,7 +1,6 @@
 import { createApp } from 'vue';
 import './tailwind.css';
 import App from './App.vue';
-import store from './store.js'
 import router from './router';
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar,IonButton } from '@ionic/vue';
 import { IonicVue } from '@ionic/vue';
@@ -36,7 +35,6 @@ import '@ionic/vue/css/palettes/dark.system.css';
 import './theme/variables.css';
 import { MotionPlugin } from '@vueuse/motion';
 const app = createApp(App)
-   app.use(store)
   .use(IonicVue)
   .use(router)
   app.use(MotionPlugin)
