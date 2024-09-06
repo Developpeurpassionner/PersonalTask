@@ -174,10 +174,12 @@ export default {
             const savedTasks = localStorage.getItem('tabs');
             if (savedTasks) {
                 this.tabs = JSON.parse(savedTasks);
+            }
+            else{
+                this.tabs=[]
+            }
         }
-
-    }
-},
+    },
     created() {
         this.HeureActuelle = moment().format("DD/MM/YYYY, h:mm:ss");
         setInterval(() => this.Heure(), 1000);
