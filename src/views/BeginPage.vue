@@ -17,7 +17,7 @@
         <ion-content :fullscreen="true">
             <button v-if="ButtonSuccess" type="button" class=" fixed mx-auto text-black bg-gradient-to-r from-yellow-400 via-yellow-400 to-yellow-400
                          hover:bg-gradient-to-br focus:ring-4 focus:outline-none 
-                         focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-xl 
+                         focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-xl animate-bounce 
                          lg:text-base md:text-3xl px-5 py-2.5 text-center me-2" @click="saveTasks()">Enregistrer</button>
             <PopupMessage message="Enregitrement avec succes." class="fixed" v-if="registerSuccess" @close="ShowModal()" />
 
@@ -137,6 +137,7 @@ export default {
         deleteTab(index){
             this.tabs.splice(index,1);
             this.InputUpdate=false;
+            this.ButtonSuccess=true;
         },
         UpdateModal(index){
             if (this.currentIndex === index) {
@@ -164,6 +165,7 @@ export default {
             // Code pour enregistrer les tâches
             localStorage.setItem('tabs', JSON.stringify(this.tabs));
             this.registerSuccess=true;
+            this.ButtonSuccess=false;
         },
         confirmSaveTasks() {
             if (confirm('Voulez-vous enregistrer vos tâches avant de quitter ?')) {
