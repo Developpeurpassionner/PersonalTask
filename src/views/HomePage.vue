@@ -6,7 +6,7 @@
       </ion-toolbar>
     </ion-header>
 
-    <ion-content :fullscreen="true" class="bg-white">
+    <ion-content :fullscreen="true">
       <ion-header collapse="condense">
         <ion-toolbar>
           <ion-title size="large"></ion-title>
@@ -40,4 +40,8 @@
 
 </script>
 
-<style scoped></style>
+<style scoped>
+  ion-content {
+    --background:white;
+  }
+</style>
