@@ -23,7 +23,7 @@
             class="w-96 mx-auto md:w-[70%] lg:w-96"></div>
         <p class="text-black text-center text-xl font-bold md:text-4xl lg:text-lg">Éviter de déchirer les papiers pour noter ce que
           vous avez dans la tête.</p>
-        <p class="text-center text-xl mt-0 md:text-4xl md:mt-4 lg:text-lg lg:mt-0">PersonalTask vous aide à gérer une
+        <p class="text-black text-center text-xl mt-0 md:text-4xl md:mt-4 lg:text-lg lg:mt-0">PersonalTask vous aide à gérer une
           liste de choses à faire
           personnellement.</p>
         <div
