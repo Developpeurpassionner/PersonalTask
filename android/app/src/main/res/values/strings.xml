@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">PersonnalTask</string>
+    <string name="title_activity_main">PersonnalTask</string>
+    <string name="package_name">com.ibrahim.personaltask</string>
+    <string name="custom_url_scheme">com.ibrahim.personaltask</string>
+</resources>
